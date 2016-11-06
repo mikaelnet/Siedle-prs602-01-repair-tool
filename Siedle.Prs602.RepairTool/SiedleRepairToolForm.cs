@@ -31,20 +31,26 @@ namespace Siedle.Prs602.RepairTool
             if (result == DialogResult.OK && File.Exists(OpenDatabaseDialog.FileName))
             {
                 var writer = new StringWriter();
-                _databaseManager = new SiedleDatabaseManager(OpenDatabaseDialog.FileName, writer);
-                _databaseManager.TrimTexts();
-                LogTextBox.Text = writer.ToString();
-                _databaseManager.FixDescriptionTexts();
-                LogTextBox.Text = writer.ToString();
-                _databaseManager.CreateMissingCards();
-                LogTextBox.Text = writer.ToString();
-                _databaseManager.FindNumberingHoles();
-                LogTextBox.Text = writer.ToString();
-                _databaseManager.TestFlagsValidity();
-                LogTextBox.Text = writer.ToString();
+                try
+                {
+                    _databaseManager = new SiedleDatabaseManager(OpenDatabaseDialog.FileName, writer);
+                    _databaseManager.TrimTexts();
+                    LogTextBox.Text = writer.ToString();
+                    _databaseManager.FixDescriptionTexts();
+                    LogTextBox.Text = writer.ToString();
+                    _databaseManager.CreateMissingCards();
+                    LogTextBox.Text = writer.ToString();
+                    _databaseManager.FindNumberingHoles();
+                    LogTextBox.Text = writer.ToString();
+                    _databaseManager.TestFlagsValidity();
+                    LogTextBox.Text = writer.ToString();
+                }
+                catch (Exception ex)
+                {
+                    writer.WriteLine(ex);
+                    LogTextBox.Text = writer.ToString();
+                }
             }
         }
-
-
     }
 }
